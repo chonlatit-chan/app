@@ -1,0 +1,27 @@
+# version: '3'
+services:
+  api:
+    container_name: api
+    env_file:
+      - ./.env
+    build: .
+    ports:
+      - '8000:8000'
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    env_file:
+      - ./.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - mongo:/data/db
+    ports:
+      - '27017:27017'
+
+volumes:
+  mongo:
